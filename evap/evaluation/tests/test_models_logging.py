@@ -207,7 +207,7 @@ class TestLoggedModel(TestCase):
             self.assertFalse(any("participants" in entry.data for entry in self.evaluation.related_logentries()))
 
     def test_clear_field(self):
-        """Test that clearing a field shows '<empty>' instead of '<deleted object>'"""
+        """Regression test for #2603"""
         exam_type = baker.make(ExamType)
         evaluation = baker.make(Evaluation, exam_type=exam_type)
 
@@ -221,8 +221,8 @@ class TestLoggedModel(TestCase):
             {"exam_type": [FieldAction(label="Exam type", type="change", items=[exam_type.name_en, "<none>"])]},
         )
 
-    def test_set_field(self):
-        """Test that setting a field from empty shows correct order with '<empty>' as old value"""
+    def test_set_field_from_none(self):
+        """Regression test for #2603"""
         evaluation = baker.make(Evaluation, exam_type=None)
         exam_type = baker.make(ExamType)
 
